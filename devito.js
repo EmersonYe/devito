@@ -3,11 +3,11 @@ var ctx = canvas.getContext("2d");
 var x = 0;
 var y = 0;
 var dx = 2;
-var dy = -2;
+var dy = 2;
 
 var scale = 0.3;
 var imageDir = "franks/";
-var frankNo = 1;
+var frankNo = 0;
 
 // Dynamic canvas size
 window.addEventListener("resize", () => {
@@ -36,7 +36,7 @@ function drawFrank(imgArray) {
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle= "#FEB801"
+  ctx.fillStyle = frankNo==29 ? "black" : "#FEB801"
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   drawFrank(imageArray);
   x += dx;

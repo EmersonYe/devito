@@ -11,8 +11,11 @@ var frankNo = 0;
 
 // Dynamic canvas size
 window.addEventListener("resize", () => {
-  canvas.height = window.innerHeight;
-  canvas.width = window.innerWidth;
+  // Threshold for resizing to improve performance
+  if(Math.abs(canvas.height + canvas.width - (window.innerHeight + window.innerWidth)) > 10) {
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+  }
 })
 
 // Pre-load images and store in an img array

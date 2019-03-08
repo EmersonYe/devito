@@ -9,6 +9,13 @@ var scale = 0.3;
 var imageDir = "franks/";
 var frankNo = 1;
 
+// Dynamic canvas size
+window.addEventListener("resize", () => {
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+})
+
+// Pre-load images and store in an img array
 function loadImages(directory) {
   // array containing references to images
   var franks = []
@@ -23,7 +30,8 @@ function loadImages(directory) {
 
 function drawFrank(imgArray) {
   var img = imgArray[frankNo];
-  ctx.drawImage(img, x, y, img.width*scale, img.height*scale);
+  ctx.drawImage(img, x, y, img.width/img.height*scale*canvas.width, scale*canvas.width);
+  // ctx.drawImage(img, x, y, img.width*scale, img.height*scale);
 }
 
 function draw() {
@@ -35,8 +43,8 @@ function draw() {
   y += dy;
   horzOverlap = 0.75;
   vertOverlap = 0.9;
-  imgWidth = imageArray[0].width*scale;
-  imgHeight = imageArray[0].height*scale;
+  imgWidth = imageArray[0].width/imageArray[0].height*scale*canvas.width;
+  imgHeight = scale*canvas.width;
   if(x + dx + imgWidth * horzOverlap > canvas.width || x + dx + imgWidth * (1-horzOverlap) < 0) {
     dx = -dx;
     frankNo++;
@@ -55,4 +63,6 @@ function draw() {
 }
 
 var imageArray = loadImages(imageDir);
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
 draw();

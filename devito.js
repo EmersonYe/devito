@@ -48,19 +48,39 @@ function draw() {
   vertOverlap = 0.9;
   imgWidth = imageArray[0].width/imageArray[0].height*scale*canvas.width;
   imgHeight = scale*canvas.width;
-  if(x + dx + imgWidth * horzOverlap > canvas.width || x + dx + imgWidth * (1-horzOverlap) < 0) {
-    dx = -dx;
+  
+  // Right canvas edge collision
+  if(x + dx + imgWidth * horzOverlap > canvas.width) {
+    dx = -1 * Math.abs(dx);
     frankNo++;
     if(frankNo>=32) {
       frankNo=0;
     }
   }
-  if(y + dy + imgHeight * vertOverlap > canvas.height || y + dy + imgHeight * (1-vertOverlap)< 0) {
-    dy = -dy;
+  // Left canvas edge collision
+  else if(x + dx + imgWidth * (1-horzOverlap) < 0){
+    dx = Math.abs(dx);
     frankNo++;
     if(frankNo>=32) {
       frankNo=0;
     }
+  }
+  // Bottom canvas edge collision
+  if(y + dy + imgHeight * vertOverlap > canvas.height) {
+    dy = -1 * Math.abs(dy);
+    frankNo++;
+    if(frankNo>=32) {
+      frankNo=0;
+    }
+  }
+  // Top canvas edge collision
+  else if(y + dy + imgHeight * (1-vertOverlap)< 0) {
+    dy = Math.abs(dy);
+    frankNo++;
+    if(frankNo>=32) {
+      frankNo=0;
+    }
+
   }
   requestAnimationFrame(draw);
 }

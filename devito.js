@@ -9,6 +9,7 @@ var scale = 0.3;
 var imageDir = "franks/";
 var frankNo = 0;
 
+var lastCol = '';
 // Dynamic canvas size
 window.addEventListener("resize", () => {
   // Threshold for resizing to improve performance
@@ -36,6 +37,16 @@ function drawFrank(imgArray) {
   ctx.drawImage(img, x, y, img.width / img.height * scale * canvas.width, scale * canvas.width);
 }
 
+function nextFrank(curCol){
+  if(curCol != lastCol) {
+    frankNo++;
+    if(frankNo >= 32) {
+      frankNo = 0;
+    }
+    lastCol = curCol;
+  }
+}
+
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = frankNo==29 ? "black" : "#FEB801"
@@ -51,35 +62,22 @@ function draw() {
   // Right canvas edge collision
   if(x + dx + imgWidth * horzOverlap > canvas.width) {
     dx = -1 * Math.abs(dx);
-    frankNo++;
-    if(frankNo >= 32) {
-      frankNo = 0;
-    }
+    nextFrank('r')
   }
   // Left canvas edge collision
   else if(x + dx + imgWidth * (1-horzOverlap) < 0){
     dx = Math.abs(dx);
-    frankNo++;
-    if(frankNo >= 32) {
-      frankNo = 0;
-    }
+    nextFrank('l')
   }
   // Bottom canvas edge collision
   if(y + dy + imgHeight * vertOverlap > canvas.height) {
     dy = -1 * Math.abs(dy);
-    frankNo++;
-    if(frankNo >= 32) {
-      frankNo = 0;
-    }
+    nextFrank('b')
   }
   // Top canvas edge collision
   else if(y + dy + imgHeight * (1-vertOverlap) < 0) {
     dy = Math.abs(dy);
-    frankNo++;
-    if(frankNo >= 32) {
-      frankNo = 0;
-    }
-
+    nextFrank('t')
   }
   requestAnimationFrame(draw);
 }
